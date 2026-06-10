@@ -48,9 +48,15 @@ export default function CharacterEditorPage() {
     [activeCategory]
   );
 
-  const setCharacter = useCallback((index: number) => {
-    setSelection((prev) => ({ ...prev, character: index }));
-  }, []);
+  const setCharacterForActiveSlot = useCallback(
+    (index: number) => {
+      setSelection((prev) => ({
+        ...prev,
+        skins: { ...prev.skins, [activeCategory]: index },
+      }));
+    },
+    [activeCategory]
+  );
 
   const handleReset = useCallback(() => {
     setSelection(getDefaultSelection());
@@ -66,14 +72,20 @@ export default function CharacterEditorPage() {
 
   const handleExport = useCallback(() => {
     const payload = {
-      version: 2,
+      version: 3,
       createdAt: new Date().toISOString(),
-      character: CHARACTERS[selection.character].slug,
-      parts: Object.fromEntries(
-        Object.entries(selection.parts).map(([key, index]) => [
-          key,
-          PART_CATEGORY_MAP[key as PartKey].options[index].id,
-        ])
+      slots: Object.fromEntries(
+        Object.keys(PART_CATEGORY_MAP).map((key) => {
+          const k = key as PartKey;
+          const category = PART_CATEGORY_MAP[k];
+          return [
+            k,
+            {
+              character: CHARACTERS[selection.skins[k]].slug,
+              option: category.options[selection.parts[k]].id,
+            },
+          ];
+        })
       ),
     };
 
@@ -103,18 +115,6 @@ export default function CharacterEditorPage() {
 
         {/* Controls */}
         <section className="flex flex-col gap-6 rounded-card bg-white p-6 ring-1 ring-black/5">
-          <div>
-            <h2 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-duo-gray">
-              Character
-            </h2>
-            <CharacterPicker
-              selected={selection.character}
-              onSelect={setCharacter}
-            />
-          </div>
-
-          <div className="h-px bg-duo-gray-soft" />
-
           <CategoryTabs
             active={activeCategory}
             onChange={setActiveCategory}
@@ -125,18 +125,34 @@ export default function CharacterEditorPage() {
             id={PANEL_ID}
             role="tabpanel"
             aria-labelledby={`tab-${activeCategory}`}
+            className="flex flex-col gap-6"
           >
-            <h2 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-duo-gray">
-              {category.label} style
-            </h2>
-            <VariantSwitcher
-              categoryLabel={category.label}
-              variantId={option.id}
-              current={optionIndex}
-              total={category.options.length}
-              onPrev={() => changeVariant(-1)}
-              onNext={() => changeVariant(1)}
-            />
+            <div>
+              <h2 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-duo-gray">
+                {category.label} character
+              </h2>
+              <CharacterPicker
+                selected={selection.skins[activeCategory]}
+                onSelect={setCharacterForActiveSlot}
+                ariaLabel={`${category.label} character`}
+              />
+            </div>
+
+            <div className="h-px bg-duo-gray-soft" />
+
+            <div>
+              <h2 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-duo-gray">
+                {category.label} style
+              </h2>
+              <VariantSwitcher
+                categoryLabel={category.label}
+                variantId={option.id}
+                current={optionIndex}
+                total={category.options.length}
+                onPrev={() => changeVariant(-1)}
+                onNext={() => changeVariant(1)}
+              />
+            </div>
           </div>
 
           <div className="mt-auto pt-2">

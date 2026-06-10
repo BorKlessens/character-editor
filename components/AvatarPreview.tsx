@@ -4,8 +4,8 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  CHARACTERS,
   getOptionId,
+  getSlotSlug,
   type AvatarSelection,
 } from "@/lib/avatarData";
 
@@ -61,8 +61,11 @@ const ARM_POSES: Record<string, Array<{ side: -1 | 1; rot: number }>> = {
 };
 
 function buildLayers(selection: AvatarSelection): Layer[] {
-  const skin = CHARACTERS[selection.character].slug;
-  const base = `/assets/characters/${skin}`;
+  // Each slot pulls art from its own character so head/body/arms/legs can mix.
+  const headBase = `/assets/characters/${getSlotSlug(selection, "head")}`;
+  const bodyBase = `/assets/characters/${getSlotSlug(selection, "body")}`;
+  const armBase = `/assets/characters/${getSlotSlug(selection, "arms")}`;
+  const legBase = `/assets/characters/${getSlotSlug(selection, "legs")}`;
 
   const facingBack = getOptionId(selection, "body") === "BACK";
 
@@ -80,7 +83,7 @@ function buildLayers(selection: AvatarSelection): Layer[] {
   for (const side of [-1, 1] as const) {
     layers.push({
       key: `leg-${side}`,
-      src: `${base}/${leg.file}`,
+      src: `${legBase}/${leg.file}`,
       x: 150 + side * leg.dx,
       y: 312,
       width: leg.width,
@@ -94,7 +97,7 @@ function buildLayers(selection: AvatarSelection): Layer[] {
   // Sized by height so the torso length is identical for every character.
   layers.push({
     key: "body",
-    src: `${base}/${bodyFile}`,
+    src: `${bodyBase}/${bodyFile}`,
     x: 150,
     y: 186,
     height: 132,
@@ -109,7 +112,7 @@ function buildLayers(selection: AvatarSelection): Layer[] {
     for (const { side, rot } of poses) {
       layers.push({
         key: `arm-${side}`,
-        src: `${base}/arm.png`,
+        src: `${armBase}/arm.png`,
         x: 150 + side * 52,
         y: 214,
         width: 44,
@@ -123,7 +126,7 @@ function buildLayers(selection: AvatarSelection): Layer[] {
   // Head (top layer, anchored by its chin to the neckline)
   layers.push({
     key: "head",
-    src: `${base}/${headFile}`,
+    src: `${headBase}/${headFile}`,
     x: 150,
     y: 200,
     width: 150,
@@ -161,7 +164,7 @@ export default function AvatarPreview({
       className="relative mx-auto w-full max-w-[340px] select-none"
       style={{ aspectRatio: `${STAGE_W} / ${STAGE_H}` }}
       role="img"
-      aria-label={`${CHARACTERS[selection.character].name} character preview`}
+      aria-label="Character preview"
     >
       <motion.div
         className="absolute left-0 top-0 origin-top-left"

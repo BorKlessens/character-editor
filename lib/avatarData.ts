@@ -77,25 +77,38 @@ export const PART_CATEGORY_MAP: Record<PartKey, PartCategory> =
 
 /** The user's current choices. */
 export interface AvatarSelection {
-  /** Index into CHARACTERS. */
-  character: number;
+  /**
+   * Selected character (index into CHARACTERS) per slot. Each part can use
+   * a different character, so you can mix-and-match e.g. a Robot body with
+   * an Adventurer head.
+   */
+  skins: Record<PartKey, number>;
   /** Selected option index per part category. */
   parts: Record<PartKey, number>;
 }
 
+function zeroPerPart(): Record<PartKey, number> {
+  return PART_CATEGORIES.reduce((acc, category) => {
+    acc[category.key] = 0;
+    return acc;
+  }, {} as Record<PartKey, number>);
+}
+
 export function getDefaultSelection(): AvatarSelection {
   return {
-    character: 0,
-    parts: PART_CATEGORIES.reduce((acc, category) => {
-      acc[category.key] = 0;
-      return acc;
-    }, {} as Record<PartKey, number>),
+    skins: zeroPerPart(),
+    parts: zeroPerPart(),
   };
 }
 
 /** Resolve the active option id for a part, e.g. "SHOCK". */
 export function getOptionId(selection: AvatarSelection, key: PartKey): string {
   return PART_CATEGORY_MAP[key].options[selection.parts[key]].id;
+}
+
+/** Asset folder slug for the character used in a given slot. */
+export function getSlotSlug(selection: AvatarSelection, key: PartKey): string {
+  return CHARACTERS[selection.skins[key]].slug;
 }
 
 export const XP_REWARD = 50;

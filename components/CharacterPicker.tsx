@@ -8,11 +8,14 @@ import { CHARACTERS } from "@/lib/avatarData";
 interface CharacterPickerProps {
   selected: number;
   onSelect: (index: number) => void;
+  /** Accessible name; defaults to "Character". */
+  ariaLabel?: string;
 }
 
 export default function CharacterPicker({
   selected,
   onSelect,
+  ariaLabel = "Character",
 }: CharacterPickerProps) {
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -49,7 +52,7 @@ export default function CharacterPicker({
   return (
     <div
       role="radiogroup"
-      aria-label="Character"
+      aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
       className="flex flex-wrap gap-2.5"
     >
