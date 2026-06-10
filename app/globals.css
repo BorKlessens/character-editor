@@ -36,11 +36,12 @@ body {
   color: var(--foreground);
 }
 
-/* Keep focus rings crisp and visible for keyboard users only. */
+/* Keep focus rings crisp and visible for keyboard users only.
+   The outline follows the element's own border-radius, so round buttons stay
+   round and rounded cards stay rounded. */
 :focus-visible {
   outline: 3px solid var(--color-duo-green);
   outline-offset: 2px;
-  border-radius: 8px;
 }
 
 /* Hide horizontal scrollbar on the mobile tab strip while keeping it scrollable. */

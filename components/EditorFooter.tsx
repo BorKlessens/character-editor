@@ -15,17 +15,17 @@ export default function EditorFooter({
   justSaved,
 }: EditorFooterProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2.5 sm:gap-3">
       {/* XP badge */}
       <div className="flex justify-center">
         <motion.div
           animate={justSaved ? { scale: [1, 1.15, 1] } : { scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="inline-flex items-center gap-2 rounded-full border-2 border-duo-yellow-dark bg-duo-yellow px-4 py-1.5 text-sm font-extrabold text-duo-ink shadow-[0_3px_0_0_var(--color-duo-yellow-dark)]"
+          className="inline-flex items-center gap-1.5 rounded-full border-2 border-duo-yellow-dark bg-duo-yellow px-3 py-1 text-xs font-extrabold text-duo-ink shadow-[0_3px_0_0_var(--color-duo-yellow-dark)] sm:gap-2 sm:px-4 sm:py-1.5 sm:text-sm"
         >
           <span
             aria-hidden="true"
-            className="flex h-5 w-5 items-center justify-center rounded-full bg-duo-yellow-dark text-[11px] text-white"
+            className="flex h-4 w-4 items-center justify-center rounded-full bg-duo-yellow-dark text-[10px] text-white sm:h-5 sm:w-5 sm:text-[11px]"
           >
             ★
           </span>
@@ -54,12 +54,12 @@ export default function EditorFooter({
       </div>
 
       {/* Actions */}
-      <div className="flex gap-3">
+      <div className="flex gap-2 sm:gap-3">
         <motion.button
           type="button"
           onClick={onReset}
           whileTap={{ scale: 0.97 }}
-          className="flex-1 rounded-2xl border-2 border-duo-gray-soft bg-white px-5 py-3.5 text-base font-extrabold text-duo-ink shadow-[0_4px_0_0_var(--color-duo-gray-soft)] transition-colors hover:border-duo-gray active:translate-y-0.5 active:shadow-none"
+          className="flex-1 rounded-2xl border-2 border-duo-gray-soft bg-white px-4 py-2.5 text-sm font-extrabold text-duo-ink shadow-[0_4px_0_0_var(--color-duo-gray-soft)] transition-colors hover:border-duo-gray active:translate-y-0.5 active:shadow-none sm:py-3 sm:text-base lg:py-3.5"
         >
           Reset
         </motion.button>
@@ -67,7 +67,7 @@ export default function EditorFooter({
           type="button"
           onClick={onSave}
           whileTap={{ scale: 0.97 }}
-          className="flex-[1.5] rounded-2xl border-2 border-duo-green-dark bg-duo-green px-5 py-3.5 text-base font-extrabold uppercase tracking-wide text-white shadow-[0_4px_0_0_var(--color-duo-green-dark)] transition-colors active:translate-y-0.5 active:shadow-none"
+          className="flex-[1.5] rounded-2xl border-2 border-duo-green-dark bg-duo-green px-4 py-2.5 text-sm font-extrabold uppercase tracking-wide text-white shadow-[0_4px_0_0_var(--color-duo-green-dark)] transition-colors active:translate-y-0.5 active:shadow-none sm:py-3 sm:text-base lg:py-3.5"
         >
           {justSaved ? "Opgeslagen!" : "Save"}
         </motion.button>

@@ -14,7 +14,7 @@ interface VariantSwitcherProps {
 }
 
 const roundButton =
-  "flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-duo-gray-soft bg-white text-2xl font-black text-duo-ink shadow-[0_4px_0_0_var(--color-duo-gray-soft)] transition-colors hover:border-duo-green hover:text-duo-green active:translate-y-0.5 active:shadow-none";
+  "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-duo-gray-soft bg-white text-xl font-black text-duo-ink shadow-[0_4px_0_0_var(--color-duo-gray-soft)] transition-colors hover:border-duo-green hover:text-duo-green active:translate-y-0.5 active:shadow-none sm:h-12 sm:w-12 sm:text-2xl lg:h-14 lg:w-14";
 
 export default function VariantSwitcher({
   categoryLabel,
@@ -44,7 +44,7 @@ export default function VariantSwitcher({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18 }}
-            className="truncate text-lg font-black tracking-wide text-duo-ink"
+            className="truncate text-base font-black tracking-wide text-duo-ink sm:text-lg"
             aria-live="polite"
           >
             {variantId}

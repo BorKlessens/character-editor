@@ -59,7 +59,7 @@ export default function CategoryTabs({
       role="tablist"
       aria-label="Character part categories"
       onKeyDown={handleKeyDown}
-      className="no-scrollbar flex gap-2 overflow-x-auto pb-1"
+      className="grid grid-cols-4 gap-1.5 sm:gap-2"
     >
       {CATEGORIES.map((category, index) => {
         const isActive = category.key === active;
@@ -78,16 +78,16 @@ export default function CategoryTabs({
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.95 }}
             className={[
-              "flex shrink-0 items-center gap-2 rounded-2xl border-2 px-4 py-2.5 text-sm font-extrabold transition-colors",
+              "flex min-w-0 items-center justify-center gap-1 rounded-2xl border-2 px-2 py-2 text-xs font-extrabold transition-colors sm:gap-1.5 sm:px-3 sm:py-2.5 sm:text-sm",
               isActive
                 ? "border-duo-green-dark bg-duo-green text-white shadow-[0_4px_0_0_var(--color-duo-green-dark)]"
                 : "border-duo-gray-soft bg-white text-duo-gray hover:border-duo-gray hover:text-duo-ink",
             ].join(" ")}
           >
-            <span aria-hidden="true" className="text-base leading-none">
+            <span aria-hidden="true" className="text-sm leading-none sm:text-base">
               {category.icon}
             </span>
-            {category.label}
+            <span className="truncate">{category.label}</span>
           </motion.button>
         );
       })}

@@ -101,20 +101,20 @@ export default function CharacterEditorPage() {
   }, [selection]);
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-6 py-6 sm:px-8 sm:py-8">
+    <main className="mx-auto flex h-full w-full max-w-5xl flex-col gap-3 overflow-hidden px-4 py-3 sm:gap-4 sm:px-6 sm:py-5 lg:gap-6 lg:px-8 lg:py-6">
       <EditorHeader onExport={handleExport} />
 
-      <div className="grid flex-1 gap-6 lg:grid-cols-[1.05fr_1fr] lg:items-start">
+      <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] gap-3 sm:gap-4 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-1 lg:gap-6">
         {/* Avatar canvas */}
         <section
           aria-label="Avatar preview"
-          className="flex items-center justify-center rounded-card bg-canvas p-6 ring-1 ring-black/5 lg:sticky lg:top-8 lg:min-h-[28rem]"
+          className="flex min-h-0 items-center justify-center overflow-hidden rounded-card bg-canvas p-3 ring-1 ring-black/5 sm:p-4 lg:p-6"
         >
           <AvatarPreview selection={selection} />
         </section>
 
         {/* Controls */}
-        <section className="flex flex-col gap-6 rounded-card bg-white p-6 ring-1 ring-black/5">
+        <section className="flex min-h-0 flex-col gap-3 overflow-hidden rounded-card bg-white p-4 ring-1 ring-black/5 sm:gap-4 sm:p-5 lg:gap-6 lg:p-6">
           <CategoryTabs
             active={activeCategory}
             onChange={setActiveCategory}
@@ -125,10 +125,10 @@ export default function CharacterEditorPage() {
             id={PANEL_ID}
             role="tabpanel"
             aria-labelledby={`tab-${activeCategory}`}
-            className="flex flex-col gap-6"
+            className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto sm:gap-4 lg:gap-5"
           >
             <div>
-              <h2 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-duo-gray">
+              <h2 className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-duo-gray sm:text-xs">
                 {category.label} character
               </h2>
               <CharacterPicker
@@ -141,7 +141,7 @@ export default function CharacterEditorPage() {
             <div className="h-px bg-duo-gray-soft" />
 
             <div>
-              <h2 className="mb-3 text-xs font-extrabold uppercase tracking-wider text-duo-gray">
+              <h2 className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-duo-gray sm:text-xs">
                 {category.label} style
               </h2>
               <VariantSwitcher
@@ -155,13 +155,11 @@ export default function CharacterEditorPage() {
             </div>
           </div>
 
-          <div className="mt-auto pt-2">
-            <EditorFooter
-              onReset={handleReset}
-              onSave={handleSave}
-              justSaved={justSaved}
-            />
-          </div>
+          <EditorFooter
+            onReset={handleReset}
+            onSave={handleSave}
+            justSaved={justSaved}
+          />
         </section>
       </div>
     </main>

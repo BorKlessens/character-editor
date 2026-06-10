@@ -54,7 +54,7 @@ export default function CharacterPicker({
       role="radiogroup"
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
-      className="flex flex-wrap gap-2.5"
+      className="grid grid-cols-6 gap-1.5 sm:gap-2"
     >
       {CHARACTERS.map((character, index) => {
         const isSelected = index === selected;
@@ -74,10 +74,12 @@ export default function CharacterPicker({
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.92 }}
             className={[
-              "flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-canvas transition-shadow",
+              "flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-canvas transition-shadow",
+              // Use an inset ring so the selected state stays inside the cell
+              // and every thumbnail keeps the exact same outer size.
               isSelected
-                ? "ring-4 ring-duo-green ring-offset-2"
-                : "ring-2 ring-black/10 hover:ring-black/25",
+                ? "ring-[3px] ring-inset ring-duo-green"
+                : "ring-2 ring-inset ring-black/10 hover:ring-black/25",
             ].join(" ")}
           >
             <img
@@ -85,7 +87,7 @@ export default function CharacterPicker({
               alt=""
               aria-hidden="true"
               draggable={false}
-              className="h-11 w-11 object-contain"
+              className="h-[78%] w-[78%] object-contain"
             />
           </motion.button>
         );

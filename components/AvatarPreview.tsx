@@ -149,7 +149,14 @@ export default function AvatarPreview({
   useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const update = () => setScale(el.clientWidth / STAGE_W);
+    const update = () => {
+      const w = el.clientWidth;
+      const h = el.clientHeight;
+      if (w === 0 || h === 0) return;
+      // Fit inside the container in both dimensions; never upscale past the
+      // intrinsic stage size so the art stays crisp on roomy desktops.
+      setScale(Math.min(w / STAGE_W, h / STAGE_H, 1));
+    };
     update();
     const observer = new ResizeObserver(update);
     observer.observe(el);
@@ -161,14 +168,18 @@ export default function AvatarPreview({
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto w-full max-w-[340px] select-none"
-      style={{ aspectRatio: `${STAGE_W} / ${STAGE_H}` }}
+      className="relative flex h-full w-full select-none items-center justify-center"
       role="img"
       aria-label="Character preview"
     >
       <motion.div
-        className="absolute left-0 top-0 origin-top-left"
-        style={{ width: STAGE_W, height: STAGE_H, transform: `scale(${scale})` }}
+        className="relative"
+        style={{
+          width: STAGE_W,
+          height: STAGE_H,
+          scale,
+          transformOrigin: "center",
+        }}
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       >

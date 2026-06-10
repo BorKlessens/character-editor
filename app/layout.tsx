@@ -25,8 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${nunito.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+    <html lang="en" className={`${nunito.variable} antialiased`}>
+      <body className="flex h-[100dvh] flex-col overflow-hidden font-sans">
+        {children}
+      </body>
     </html>
   );
 }
